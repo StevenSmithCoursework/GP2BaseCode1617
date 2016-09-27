@@ -18,6 +18,7 @@
 
 //Name space std, so we don't need to do std::vector
 using namespace std;
+#include <SDL.h>
 
 #include "../Utils/include/Utils.h"
 

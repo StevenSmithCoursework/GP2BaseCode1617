@@ -9,6 +9,13 @@
 class GameApplication:public NonCopyable
 {
 public:
+
+	void OnBeginRender();
+	virtual void render();
+	void OnEndRender();
+	virtual void update();
+	void initGraphics();
+
 	//Constructor
 	GameApplication();
 	//Virtual Deconstructor
@@ -34,6 +41,7 @@ public:
 protected:
 	//SDL Windows
 	SDL_Window * m_pWindow;
+	SDL_GLContext m_GLcontext;
 
 	bool m_bIsRunning;
 	bool m_bIsActive;
@@ -46,5 +54,6 @@ protected:
 	ProgramOptions m_Options;
 
 	void parseConfig(int args,char * arg[]);
+
 };
 #endif

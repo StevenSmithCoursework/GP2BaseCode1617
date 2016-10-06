@@ -15,6 +15,7 @@ public:
 	void OnEndRender();
 	virtual void update();
 	void initGraphics();
+	void setViewport(int width, int height);
 
 	//Constructor
 	GameApplication();

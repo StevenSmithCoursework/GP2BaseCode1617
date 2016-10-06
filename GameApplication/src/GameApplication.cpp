@@ -57,14 +57,32 @@ void GameApplication::parseConfig(int args,char * arg[])
 
 void GameApplication::OnBeginRender()
 {
+	//Set the background to clear
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	//Clear the color and depth buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GameApplication::render()
 {
+	//Switch to ModelView
+	glMatrixMode(GL_MODELVIEW);
+	//Reset using the Identity Matrix
+	glLoadIdentity();
+	//Translate to -5.0f on z-axis
+	glTranslatef(0.0f, 0.0f, -5.0f);
+	//Begin drawing triangles
+	glBegin(GL_TRIANGLES);
+	glColor3f(1.0f, 0.0f, 0.0f); //Colour of the vertices
+	glVertex3f(0.0f, 1.0f, 0.0f); // Top
+	glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
+	glVertex3f(1.0f, -1.0f, 0.0f); // Bottom Right
+	glEnd();
 }
 
 void GameApplication::OnEndRender()
 {
+	SDL_GL_SwapWindow(m_pWindow);
 }
 
 void GameApplication::update()
@@ -108,6 +126,41 @@ void GameApplication::initGraphics()
 
 	//Turn on best perspective correction
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	setViewport((int)m_WindowWidth, (int)m_WindowHeight);
+}
+
+void GameApplication::setViewport(int width, int height)
+{
+	//screen ration
+	GLfloat ratio;
+
+	//make sure height is always above 1
+	if (height == 0) {
+		height = 1;
+	}
+
+	//calculate screen ration
+	ratio = (GLfloat)width / (GLfloat)height;
+
+	//Setup viewport
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+
+	//Change to projection matrix mode
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	//Calculate perspective matrix, using gLM
+	mat4 projectionMatrix = perspective(radians(45.0f), ratio,
+		0.1f, 100.0f);
+	glLoadMatrixf(&projectionMatrix[0][0]);
+
+	//Switch to ModelView
+	glMatrixMode(GL_MODELVIEW);
+
+	//Reset using the Identity Matrix
+	glLoadIdentity();
+
 }
 
 

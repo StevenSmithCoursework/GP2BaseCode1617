@@ -38,6 +38,8 @@ public:
 
 	virtual void initScene();
 
+	
+
 	virtual void destroyScene();
 
 	//Basically runs our game

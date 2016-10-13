@@ -35,6 +35,10 @@ public:
 
 	virtual void OnRestored();
 
+	virtual void initScene();
+
+	virtual void destroyScene();
+
 	//Basically runs our game
 	void run();
 

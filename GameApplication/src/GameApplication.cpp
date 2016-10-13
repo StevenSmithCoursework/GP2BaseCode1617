@@ -65,6 +65,7 @@ void GameApplication::OnBeginRender()
 
 void GameApplication::render()
 {
+	/* Old 1.1 version
 	//Switch to ModelView
 	glMatrixMode(GL_MODELVIEW);
 	//Reset using the Identity Matrix
@@ -78,6 +79,7 @@ void GameApplication::render()
 	glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
 	glVertex3f(1.0f, -1.0f, 0.0f); // Bottom Right
 	glEnd();
+	*/
 }
 
 void GameApplication::OnEndRender()
@@ -95,7 +97,7 @@ void GameApplication::initGraphics()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
 		SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	m_GLcontext = SDL_GL_CreateContext(m_pWindow);
 
@@ -146,6 +148,9 @@ void GameApplication::setViewport(int width, int height)
 	//Setup viewport
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
+	
+	
+	/* Old 1.1 Version
 	//Change to projection matrix mode
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -160,6 +165,7 @@ void GameApplication::setViewport(int width, int height)
 
 	//Reset using the Identity Matrix
 	glLoadIdentity();
+	*/
 
 }
 
@@ -186,7 +192,7 @@ bool GameApplication::init(int args,char * arg[])
 	createWindow(m_WindowTitle,m_WindowWidth,m_WindowHeight,m_WindowCreationFlags);
 
 	initGraphics();
-
+	initScene();
 
 	m_bIsActive=true;
 	return true;
@@ -196,6 +202,7 @@ void GameApplication::OnQuit()
 {
 	//set our boolean which controls the loop to false
 	m_bIsRunning = false;
+	destroyScene();
 	SDL_GL_DeleteContext(m_GLcontext);
 	SDL_DestroyWindow(m_pWindow);
 	SDL_Quit();
@@ -217,6 +224,14 @@ void GameApplication::OnRestored()
 {
   LOG(INFO,"%s","Restored");
   m_bIsActive=true;
+}
+
+void GameApplication::initScene()
+{
+}
+
+void GameApplication::destroyScene()
+{
 }
 
 void GameApplication::run()

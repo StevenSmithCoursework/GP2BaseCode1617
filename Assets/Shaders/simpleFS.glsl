@@ -1,8 +1,11 @@
 #version 410
 
 out vec4 FragColor;
+in vec2 vertexTexCoordsOut;
+
+uniform sampler2D diffuseSampler;
 
 void main()
 {
-	FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	FragColor = texture(diffuseSampler, vertexTexCoordsOut);
 }

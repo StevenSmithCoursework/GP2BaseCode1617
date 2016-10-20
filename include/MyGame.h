@@ -13,6 +13,8 @@ public:
 	void update();
 
 	GLuint m_ShaderProgram;
+	GLuint m_Texture;
+	GLuint m_Sampler;
 
 	//matrices
 	mat4 m_ViewMatrix;

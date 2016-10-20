@@ -8,6 +8,7 @@ struct Vertex
 
 const std::string ASSET_PATH = "Assets";
 const std::string SHADER_PATH = "/Shaders";
+const std::string TEXTURE_PATH = "/Textures";
 
 
 void MyGame::initScene()
@@ -16,8 +17,11 @@ void MyGame::initScene()
 
 	Vertex verts[] = {
 		{-0.5f, -0.5f, 0.0f},
-		{0.5f, -0.5f, 0.0f},
-		{0.0f, 0.5f, 0.0f}
+		{-0.5f, 0.5f, 0.0f},
+		{0.5f, 0.5f, 0.0f},
+		{ -0.5f, -0.5f, 0.0f },
+		{ -0.5f, 0.5f, 0.0f },
+		{0.5f, -0.5f, 0.0f}
 	};
 
 	glGenBuffers(1, &m_VBO);
@@ -26,8 +30,12 @@ void MyGame::initScene()
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(3*sizeof(float)));
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(3 * sizeof(float)));
 
 	GLuint vertexShaderProgram = 0;
 	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
@@ -46,6 +54,19 @@ void MyGame::initScene()
 
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
+
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "texture.png";
+
+	m_Texture = loadTextureFromFile(texturePath);
+
+	glBindTexture(GL_TEXTURE_2D, m_Texture);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glGenSamplers(1, &m_Sampler);
+	glSamplerParameteri(m_Sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glSamplerParameteri(m_Sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 void MyGame::destroyScene()
@@ -55,6 +76,8 @@ void MyGame::destroyScene()
 	glDeleteProgram(m_ShaderProgram);
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
+	glDeleteTextures(1, &m_Texture);
+	glDeleteSamplers(1, &m_Sampler);
 }
 
 void MyGame::render()

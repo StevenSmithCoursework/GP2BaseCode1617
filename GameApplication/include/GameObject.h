@@ -23,6 +23,9 @@ public:
 	void loadShaders(const string& vsfilename, const string& fsfilename);
 	void copyVertexData(Vertex *pVerts, int numberOfVertices);
 
+	//void changeObject();
+	void moveObject();
+
 private:
 	GLuint m_VBO;
 	GLuint m_VAO;

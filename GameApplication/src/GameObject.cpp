@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+
+
 GameObject::GameObject()
 {
 	m_VBO = 0;
@@ -52,6 +54,9 @@ void GameObject::onRender(mat4 & view, mat4 & projection)
 
 void GameObject::onUpdate()
 {
+	//changeObject();
+	moveObject();
+
 	m_RotationMatrix = eulerAngleXYZ(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	m_TranslationMatrix = translate(m_Position);
 	m_ScaleMatrix = scale(m_Scale);
@@ -108,6 +113,7 @@ void GameObject::loadShaders(const std::string & vsfilename, const std::string &
 
 void GameObject::copyVertexData(Vertex * pVerts, int numberOfVertices)
 {
+	m_NumberOfVertices = numberOfVertices;
 	glGenBuffers(1, &m_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_NumberOfVertices * sizeof(Vertex), pVerts, GL_STATIC_DRAW);
@@ -125,3 +131,16 @@ void GameObject::copyVertexData(Vertex * pVerts, int numberOfVertices)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(void**)offsetof(Vertex, uvTex));
 }
+
+/*void GameObject::changeObject()
+{
+	m_Position = vec3(2.0f, 1.0f, 3.0f);
+	m_Rotation = vec3(20.0f, 12.0f, 180.0f);
+	m_Scale = vec3(2.0f, 1.0f, 4.0f);
+}
+*/
+void GameObject::moveObject()
+{
+	
+}
+

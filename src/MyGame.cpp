@@ -21,11 +21,16 @@ void MyGame::initScene()
 	
 	Vertex verts[] = {
 	{vec3(-0.5f, -0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(0.0f,3.0f)},
-	{vec3(0.5f, -0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(3.0f,3.0f)},
+	//{vec3(0.5f, -0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(3.0f,3.0f)},
 	{vec3(-0.5f,  0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(0.0f,0.0f)},
-		{vec3(-0.5f, 0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(0.0f,0.0f)},
+		//{vec3(-0.5f, 0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(0.0f,0.0f)},
 		{vec3(0.5f, 0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(3.0f,0.0f)},
 		{vec3(0.5f,  -0.5f, 0.0f), vec4(1.0f,1.0f,1.0f,1.0f), vec2(3.0f,3.0f)}
+	};
+
+	int indices[] = {
+		0, 3, 1,
+		1, 3, 2
 	};
 
 	
@@ -49,7 +54,7 @@ void MyGame::initScene()
 	m_TestObject->loadTexture(texturePath);
 	
 
-	m_TestObject->copyVertexData(verts, 6);
+	m_TestObject->copyVertexData(verts, 4, indices, 6);
 }
 
 void MyGame::destroyScene()

@@ -15,6 +15,9 @@
 #include <chrono>
 #include <ctime>
 #include <cstdarg>
+#include<assimp/cimport.h>
+#include<assimp/scene.h>
+#include<assimp/postprocess.h>
 
 //Name space std, so we don't need to do std::vector
 using namespace std;

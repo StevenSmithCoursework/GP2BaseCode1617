@@ -21,7 +21,7 @@ public:
 	
 	void loadTexture(const string& filename);
 	void loadShaders(const string& vsfilename, const string& fsfilename);
-	void copyVertexData(Vertex *pVerts, int numberOfVertices);
+	void copyVertexData(Vertex *pVerts, int numberOfVertices, int *indices, int numberOfIndices);
 
 	//void changeObject();
 	void moveObject();
@@ -29,6 +29,7 @@ public:
 private:
 	GLuint m_VBO;
 	GLuint m_VAO;
+	GLuint m_IBO;
 	
 	//Shader Program
 	GLuint m_ShaderProgram;
@@ -50,6 +51,7 @@ private:
 	mat4 m_ScaleMatrix;
 
 	int m_NumberOfVertices;
+	int m_NumberOfIndices;
 
 protected:
 

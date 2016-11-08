@@ -5,10 +5,12 @@
 const std::string ASSET_PATH = "assets";
 const std::string SHADER_PATH = "/shaders";
 const std::string TEXTURE_PATH = "/textures";
+const std::string MODEL_PATH = "/models";
 
 MyGame::MyGame()
 {
 	m_TestObject = nullptr;
+	m_LoadObject = nullptr;
 }
 
 MyGame::~MyGame()
@@ -36,11 +38,17 @@ void MyGame::initScene()
 	
 
 	m_TestObject = new GameObject();
+	m_LoadObject = new GameObject();
 
 
 
 	string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
 	string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
+	string modelPath = ASSET_PATH + MODEL_PATH + "/utah-teapot.fbx";
+
+	
+	m_LoadObject = loadModelFromFile(modelPath);
+	m_LoadObject->loadShaders(vsPath, fsPath);
 
 	m_TestObject->loadShaders(vsPath, fsPath);
 
@@ -52,7 +60,7 @@ void MyGame::initScene()
 	//lets load texture
 	string texturePath = ASSET_PATH + TEXTURE_PATH + "/texture.png";
 	m_TestObject->loadTexture(texturePath);
-	
+	m_LoadObject->loadTexture(texturePath);
 
 	m_TestObject->copyVertexData(verts, 4, indices, 6);
 }
@@ -65,6 +73,12 @@ void MyGame::destroyScene()
 		delete m_TestObject;
 		m_TestObject = nullptr;
 	}
+	if (m_LoadObject)
+	{
+		m_TestObject->onDestroy();
+		delete m_LoadObject;
+		m_LoadObject = nullptr;
+	}
 }
 
 void MyGame::update()
@@ -76,11 +90,13 @@ void MyGame::update()
 	m_ModelMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, -0.2f));
 
 	m_TestObject->onUpdate();
+	m_LoadObject->onUpdate();
 }
 
 void MyGame::render()
 {
 	GameApplication::render();
 	m_TestObject->onRender(m_ViewMatrix, m_ProjMatrix);
+	m_LoadObject->onRender(m_ViewMatrix, m_ProjMatrix);
 	
 }

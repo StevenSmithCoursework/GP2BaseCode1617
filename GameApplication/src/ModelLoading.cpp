@@ -36,6 +36,12 @@ GameObject * loadModelFromFile(const string & filename)
 			ourV.position = vec3(position.x, position.y, position.z);
 			ourV.normal = vec3(normal.x, normal.y, normal.z);
 
+			for (int x = 0; x < mesh->GetNumUVChannels(); x++)
+			{
+				aiVector3D textCoord = mesh->mTextureCoords[x][v];
+				ourV.texCoords0 = vec2(textCoord.x, textCoord.y);
+			}
+
 			verts.push_back(ourV);
 		}
 

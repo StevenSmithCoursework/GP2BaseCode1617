@@ -7,7 +7,7 @@ GameObject * loadModelFromFile(const string & filename)
 	GameObject *gameObject = new GameObject();
 	const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
-	const aiScene* scene = aiImportFile(filename.c_str(), aiProcess_JoinIdenticalVertices|aiProcess_Triangulate | aiProcess_FlipUVs|aiProcess_GenSmoothNormals);
+	const aiScene* scene = aiImportFile(filename.c_str(), aiProcess_JoinIdenticalVertices|aiProcess_Triangulate|aiProcess_FlipUVs|aiProcess_GenSmoothNormals|aiProcess_CalcTangentSpace);
 
 	if (scene)
 	{
@@ -33,6 +33,16 @@ GameObject * loadModelFromFile(const string & filename)
 			aiVector3D normal = mesh->mNormals[v];
 
 			Vertex ourV;
+
+			if (mesh->HasTangentsAndBitangents())
+			{
+				aiVector3D binormal = mesh->mBitangents[v];
+				aiVector3D tangent = mesh->mTangents[v];
+
+				ourV.binormal = vec3(binormal.x, binormal.y, binormal.z);
+				ourV.tangent = vec3(tangent.x, tangent.y, tangent.z);
+			}
+
 			ourV.position = vec3(position.x, position.y, position.z);
 			ourV.normal = vec3(normal.x, normal.y, normal.z);
 

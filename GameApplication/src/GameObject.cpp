@@ -79,6 +79,12 @@ void GameObject::onRender(mat4& view, mat4& projection)
 	GLint specularTextureLocation = glGetUniformLocation(m_ShaderProgram, "specularSampler");
 	glUniform1i(specularTextureLocation, 1);
 
+	glBindSampler(2, m_Sampler);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	GLint normalTextureLocation = glGetUniformLocation(m_ShaderProgram, "normalSampler");
+	glUniform1i(normalTextureLocation, 2);
+
 	GLint ambientLocation = glGetUniformLocation(m_ShaderProgram, "ambientMaterialColour");
 	glUniform4fv(ambientLocation, 1, value_ptr(m_AmbientMaterialColour));
 
@@ -140,6 +146,13 @@ void GameObject::loadSpecularTexture(const string & filename)
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
+void GameObject::loadNormalTexture(const string & filename)
+{
+	m_NormalTexture = loadTextureFromFile(filename);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	glGenerateMipmap(GL_TEXTURE_2D);
+}
+
 void GameObject::loadShaders(const string & vsFilename, const string & fsFilename)
 {
 	GLuint vertexShaderProgram = loadShaderFromFile(vsFilename, VERTEX_SHADER);
@@ -187,4 +200,10 @@ void GameObject::copyVertexData(Vertex * pVertex, int numberOfVertices, int * pI
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(void**)(offsetof(Vertex, normal)));
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(void**)(offsetof(Vertex, tangent)));
+	glDisableVertexAttribArray(5);
+	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(void**)(offsetof(Vertex, binormal)));
 }

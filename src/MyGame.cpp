@@ -18,15 +18,17 @@ MyGame::~MyGame()
 void MyGame::initScene()
 {
 	string modelPath = ASSET_PATH + MODEL_PATH + "/Earth.fbx";
-	string vsFilename = ASSET_PATH + SHADER_PATH + "/lightTextureVS.glsl";
-	string fsFilename = ASSET_PATH + SHADER_PATH + "/lightTextureFS.glsl";
-	string diffuseTexturePath = ASSET_PATH + TEXTURE_PATH + "/earth_diff.png";
-	string specularTexturePath = ASSET_PATH + TEXTURE_PATH + "/earth_spec.png";
+	string vsFilename = ASSET_PATH + SHADER_PATH + "/normalMappingVS.glsl";
+	string fsFilename = ASSET_PATH + SHADER_PATH + "/normalMappingFS.glsl";
+	string diffuseTexturePath = ASSET_PATH + TEXTURE_PATH + "/bricks_diff.jpg";
+	string specularTexturePath = ASSET_PATH + TEXTURE_PATH + "/bricks_spec.png";
+	string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + "/bricks_norm.png";
 	
 	m_TestGO=shared_ptr<GameObject>(loadModelFromFile(modelPath));
 	m_TestGO->loadShaders(vsFilename, fsFilename);
 	m_TestGO->loadDiffuseTexture(diffuseTexturePath);
 	m_TestGO->loadSpecularTexture(specularTexturePath);
+	m_TestGO->loadNormalTexture(bumpTexturePath);
 	
 
 	m_TestGO->setScale(vec3(0.5f, 0.5f, 0.5f));

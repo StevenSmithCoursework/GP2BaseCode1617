@@ -25,13 +25,21 @@ void main()
 	vec3 worldPos = (Model*vec4(vertexPosition, 1.0)).xyz;
 	cameraDirectionOut = normalize(cameraPos - worldPos);
 	
-	vec3 vertexNormalModel = normalize(Model*vec4(vertexNormal,0,0f)).xyz;
+	vec3 vertexNormalModel = normalize(Model*vec4(vertexNormal,0.0f)).xyz;
+	vec3 vertexTangentsModel = normalize(Model*vec4(vertexTangents,0.0f)).xyz;
+	vec3 vertexBinormalsModel = normalize(Model*vec4(vertexBinormals,0.0f)).xyz;
 	
-	mat3 tangentMatrix = mat3(vertexNormalModel, vertexTangents, vertexBinormals);
+	mat3 tangentMatrix = mat3(vertexNormalModel, vertexTangentsModel, vertexBinormalsModel);
 
+	vec3 cameraDir = cameraDirectionOut;
+	
+	cameraDirectionOut = normalize(tangentMatrix * cameraDir);
+	vertexNormalOut = normalize(tangentMatrix * vertexNormalModel);
+	lightDirectionOut = normalize(tangentMatrix * lightDirection);
+	
 	gl_Position = MVP * vec4(vertexPosition, 1.0);
 	vertexColoursOut=vertexColours;
 	vertexTextureCoordsOut=vertexTextureCoords;
 	
-	vec3 cameraDir = cameraDirectionOut;
+
 }
